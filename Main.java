@@ -1,5 +1,5 @@
 
-class Vehicle {
+abstract class Vehicle {
     protected String brand;
     protected int year;
 
@@ -17,9 +17,7 @@ class Vehicle {
         System.out.println("Year: " + year);
     }
 
-    public void start() {
-        System.out.println("Vehicle is starting");
-    }
+    public abstract void start();
 }
 
 class Engine {
@@ -41,7 +39,11 @@ class Engine {
     }
 }
 
-class Car extends Vehicle {
+interface Serviceable {
+    void checkEngine();
+}
+
+class Car extends Vehicle implements Serviceable {
     private int doors;
     private Engine engine;
 
@@ -70,7 +72,11 @@ class Car extends Vehicle {
         System.out.println("Car is starting");
     }
 
-    // Перевантаження методу
+    @Override
+    public void checkEngine() {
+        System.out.println("Engine checked successfully");
+    }
+
     public void drive() {
         System.out.println("Car is driving");
     }
@@ -83,10 +89,11 @@ class Car extends Vehicle {
 public class Main {
     public static void main(String[] args) {
 
-        Vehicle vehicle = new Vehicle("Totoya", 2015);
-        System.out.println("Vehicle:");
-        vehicle.showInfo();
-        vehicle.start();
+        Car car1 = new Car();
+        System.out.println("Car 1:");
+        car1.showInfo();
+        car1.start();
+        car1.checkEngine();
 
         System.out.println();
 
@@ -96,17 +103,19 @@ public class Main {
 
         System.out.println();
 
-        Car car1 = new Car();
-        System.out.println("Car 1:");
-        car1.showInfo();
-
-        System.out.println();
-
         Car car2 = new Car("Audi", 2022, 4, "Petrol", 250);
         System.out.println("Car 2:");
         car2.showInfo();
         car2.start();
+        car2.checkEngine();
         car2.drive();
         car2.drive(90);
+
+        System.out.println();
+
+        Vehicle vehicle = new Car("Toyota", 2015, 4, "Diesel", 150);
+        System.out.println("Vehicle:");
+        vehicle.showInfo();
+        vehicle.start();
     }
 }
